@@ -18,7 +18,10 @@ var commentRoutes    = require("./routes/comments"),
     campgroundRoutes = require("./routes/campgrounds"),
     indexRoutes      = require("./routes/index")
 
-mongoose.connect('mongodb://localhost:27017/yelp_camp_11', {useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true}).catch(error => console.log(error.message));
+mongoose.connect('mongodb+srv://Beth:Rusty@cluster0.9gqji.mongodb.net/<dbname>?retryWrites=true&w=majority', {useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true}).then(() => {console.log("connected to Atlas!");
+}).catch(error => console.log(error.message));
+
+// mongoose.connect('mongodb://localhost:27017/yelp_camp_11', {useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true}).catch(error => console.log(error.message));
 app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"));
@@ -49,11 +52,7 @@ app.use("/", indexRoutes);
 app.use("/campgrounds", campgroundRoutes);
 app.use("/campgrounds/:id/comments", commentRoutes);
 
-
-app.listen(port, function () {
-  console.log("Server Has Started!");
-});
 // LISTEN
-app.listen(3000, function() { 
+app.listen(process.env.PORT, process.env.IP, function() { 
   console.log('Connected to YelpCamp!'); 
 });
